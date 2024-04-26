@@ -1,0 +1,23 @@
+.data # to sinalizando que aqui vem dado e não código em si
+newline: .string "\n" # registrando na label newline uma string de quebra de linha
+
+.text # aqui vem código escrito de fato
+main: # main do código
+li a7, 5 # registrando o syscall de ler um inteiro
+ecall # faz o ecall (le um inteiro)
+add a1, a0, zero # guardando o resultado da syscall no registrador a1
+
+li a7, 5 # registrando o syscall de ler um inteiro
+ecall # faz o ecall (le um inteiro)
+add a2, a0, zero # guardando o resultado da syscall no registrador a2
+
+li a7, 1 # registrando o syscall de printar um inteiro
+add a0, a1, a2 # fazendo uma soma entre a1 e a2
+ecall # executando o syscall (printando o resultado da soma)
+
+la a0, newline # colocando o endereço da string no a0
+li a7, 4 # chamando a syscall de printar string
+ecall # executando a syscall
+
+li a7, 10 # colocando o valor 10 no registrador a7, que no ecall significa terminar o programa com 0 (bem sucedido)
+ecall 

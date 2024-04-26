@@ -1,0 +1,13 @@
+.data # to sinalizando que aqui vem dado e não código em si
+ola: # definindo uma label pra string
+	.string "Ola Mundo\n" # definindo o conteúdo da string
+	
+.text # aqui vem código escrito de fato
+main:
+
+la a0, ola # aqui eu to fzndo tipo um load immediate, mas ao invés de um valor numérico to passando um endereço pro registrador a0
+li a7, 4 # colocando no registrador a7 o valor 4, que no ecall significa printar uma string (que está no endereço armazenado pelo a0)
+ecall
+
+li a7, 10 # colocando o valor 10 no registrador a7, que no ecall significa terminar o programa com 0 (bem sucedido)
+ecall 
