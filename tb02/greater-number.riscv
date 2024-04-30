@@ -10,37 +10,36 @@ li a7, 5
 ecall
 mv t0, a0 # lendo o valor N para a gnt começar o loop 
 
-add t1, zero, zero # variável de controle i
-addi t2, zero, -255 # variável "maior" para controlar o maior numero
+mv t1, zero # variável de controle i
+li t2, -2147483648  # variável "maior" para controlar o maior numero
 
 while: # iniciando o loop while
-	blt t1, t0, loop # se o i < n ele faz o branch pro loop
-	j end # aqui é quando i >= n ,ou seja, acabou o loop
-	
-	loop: # começando o loop
-		li a7, 5
-		ecall
-		mv t3, a0 # lendo o inteiro
-		
-		bgt t3, t2, swap # se o inteiro x for maior que "maior" ele faz branch pro swap
-		j noSwap # caso seja menor, vai pro noSwap
-		
-		swap: # troca
-			mv t2, t3 # fazendo a troca da variável maior para x, pois ele é maior
-		
-		noSwap:  # faz nada
-	
-	addi t1, t1, 1 # i++
-	j while # voltando pro inicio do while
+blt t1, t0, right
+j end
+
+right:
+li a7, 5
+ecall
+
+bgt a0, t2, swap
+j noSwap
+
+swap:
+mv t2, a0
+
+noSwap:
+
+addi t1, t1, 1
+j while
 
 end:
-	li a7, 1
-	mv a0, t2
-	ecall # printando o valor da variável "maior"
-	
-	la a0, newline 
-	li a7, 4
-	ecall # printando a quebra de linha
-	
-	li a7, 10
-	ecall # encerrando com 0
+li a7, 1
+mv a0, t2
+ecall # printando o valor da variável "maior"
+
+la a0, newline 
+li a7, 4
+ecall # printando a quebra de linha
+
+li a7, 10
+ecall # encerrando com 0
