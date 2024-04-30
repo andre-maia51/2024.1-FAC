@@ -1,0 +1,190 @@
+.data
+newline: .string "\n" # sinalizando quebra de linha
+closeParentesis: .string "): "# fechamento dos parenteses
+
+ADD: .string "ADD: "
+SUB: .string "SUB: "
+AND: .string "AND: "
+OR:  .string  "OR: "
+XOR: .string "XOR: "
+MASK: .string "MASK: "
+SLL: .string "SLL("
+SRL: .string "SRL("
+
+
+.text
+main:
+# LEITURA DOS INPUTS
+
+li a7, 5 # syscall pra ler um inteiro
+ecall
+mv t0, a0 # guardando o input do valor de A em t0
+
+li a7, 5
+ecall
+mv t1, a0 # guardando o input do valor de B em t1
+
+li a7, 5
+ecall
+mv t2, a0 # guardando o input do valor de C em t2
+
+#########################################################
+
+# OPERAÇÕES ARITMÉTICAS BÁSICAS
+
+# Soma entre A e B
+
+# Printando a string ADD
+la a0, ADD
+li a7, 4
+ecall
+
+# Printando o valor da soma
+li a7, 1
+add a0, t0, t1 # calculando a soma entre A e B
+ecall
+
+# Printando a quebra de linha
+la a0, newline
+li a7, 4
+ecall
+
+# Subtração entre A e B
+
+# Printando a string SUB
+la a0, SUB
+li a7, 4
+ecall
+
+# Printando o valor da subtração
+li a7, 1
+sub a0, t0, t1
+ecall
+
+# Printando a quebra de linha
+la a0, newline
+li a7, 4
+ecall
+#########################################################
+
+# OPERAÇÕES LÓGICAS BÁSICAS
+
+# And entre A e B
+
+# Printando a string AND
+la a0, AND
+li a7, 4
+ecall
+
+# Printando o valor da operação
+li a7, 1
+and a0, t0, t1 # calculando a and entre A e B
+ecall
+
+# Printando a quebra de linha
+la a0, newline
+li a7, 4
+ecall
+
+# Or entre A e B
+
+# Printando a string OR
+la a0, OR
+li a7, 4
+ecall
+
+# Printando o valor da operação
+li a7, 1
+or a0, t0, t1 # calculando a or entre A e B
+ecall
+
+# Printando a quebra de linha
+la a0, newline
+li a7, 4
+ecall
+
+# XOR entre A e B
+
+# Printando a string XOR
+la a0, XOR
+li a7, 4
+ecall
+
+# Printando o valor da operação
+li a7, 1
+xor a0, t0, t1 # calculando a xor entre A e B
+ecall
+
+# Printando a quebra de linha
+la a0, newline
+li a7, 4
+ecall
+#########################################################
+
+# MASK entre C e 31
+
+# And entre C e 31
+la a0, MASK # printando a string MASK
+li a7, 4
+ecall
+
+li a7, 1
+andi a0, t2, 31 # realizando a op de MASK entre C e 31
+add t3, a0, zero # armazenando o valor do mask em t3 (ou M)
+ecall
+
+la a0, newline
+li a7, 4
+ecall
+#########################################################
+
+# Deslocamentos entre o MASK com A e B
+
+# SLL entre A e M
+la a0, SLL
+li a7, 4
+ecall
+
+li a7, 1
+add a0, t3, zero
+ecall
+
+la a0, closeParentesis
+li a7, 4
+ecall
+
+# De 144 até 154 foi pra printar a string inteira "SLL(M): " e transferindo o valor de M para a0
+
+li a7, 1
+sll a0, t0, t3 # Aqui calculando o SLL entre A e M
+ecall
+
+la a0, newline
+li a7, 4
+ecall # Printando a quebra de linha
+
+# SRL entre B e M
+la a0, SRL
+li a7, 4
+ecall
+
+li a7, 1
+add a0, t3, zero
+ecall
+
+la a0, closeParentesis
+li a7, 4
+ecall
+
+# De 167 até 177 to printando a string "SRL(M): " e transferindo o valor de M para a0
+
+li a7, 1
+srl a0, t1, t3 # Calculando o SRL entre B e M
+ecall
+
+la a0, newline
+li a7, 4
+ecall # Printando a quebra de linha
+
+li a7, 10 # colocando o valor 10 no registrador a7, que no ecall significa terminar o programa com 0 (bem sucedido)
+ecall 
