@@ -1,0 +1,51 @@
+.data
+string: .space 256      # reservando o buffer da string
+newline: .string "\n"   # string da quebra de linha
+
+.text
+# Lendo o inteiro N
+li a7, 5                # syscall para ler um inteiro
+ecall                   # lendo o inteiro N
+addi t0, a0, 2          # armazenando N em t0
+
+# Lendo a string
+la a0, string           # colocando no a0 o endereço da string
+mv a1, t0               # colocando em a1 o tamanho da string que leremos
+li a7, 8                # chamando o syscall para leitura da string
+ecall                   # lendo a string
+
+# Verificando se a string é um palíndromo
+la a1, string           # a1 = endereço da string
+addi t1, t0, -3         # t1 = N - 3 (índice do último caractere relevante)
+add t2, a1, t1          # t2 = endereço do último caractere relevante
+
+li t3, 1                # t3 = 1 (assumimos que é palíndromo)
+
+loop:
+bge a1, t2, end         # se a1 >= t2, fim do loop
+
+lb t4, 0(a1)            # carregando caractere da string original
+lb t5, 0(t2)            # carregando caractere da string reversa
+
+bne t4, t5, notPalindrome # se caracteres não são iguais, não é palíndromo
+
+addi a1, a1, 1          # indo para o próximo caractere na string original
+addi t2, t2, -1         # indo para o próximo caractere na string reversa
+
+j loop
+
+notPalindrome:
+li t3, 0                # se não for um palíndromo, t3 = 0
+
+end:
+mv a0, t3               # colocando t3 em a0 (resultado)
+
+li a7, 1                # syscall para printar um inteiro
+ecall                   # printando um inteiro
+
+la a0, newline          # colocando newline em a0
+li a7, 4                # syscall para printar string
+ecall                   # printando a string
+
+li a7, 10               # syscall para encerrar o programa
+ecall                   # return 0
